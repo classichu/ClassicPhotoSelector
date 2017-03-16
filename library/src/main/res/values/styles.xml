@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ClassicButtonBorderless" parent="@style/Widget.AppCompat.Button.Borderless">
+    </style>
+    <style name="ClassicButtonBorderlessColored" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
+    </style>
+</resources>
