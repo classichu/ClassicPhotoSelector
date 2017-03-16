@@ -14,5 +14,5 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency  [![](https://jitpack.io/v/classichu/ClassicPhotoSelector.svg)](https://jitpack.io/#classichu/ClassicPhotoSelector)
 
 	  dependencies {
-	          compile 'com.github.classichu:ClassicPhotoSelector:1.0.0'
+	          compile 'com.github.classichu:ClassicPhotoSelector:x.x.x'
 	  }
