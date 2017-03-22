@@ -5,19 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.classichu.classicphotoselector.MainActivity">
+    tools:context="com.classichu.photoselector.customselector.ClassicPhotoSelectorActivity">
 
-
-    <TextView
-        android:id="@+id/dsadas"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="select  photo"
-        android:gravity="center"
-        android:layout_gravity="center"
+    <com.classichu.photoselector.imagespicker.ImagePickRecyclerView
+        android:id="@+id/id_iprv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
-
-
-
 
 </LinearLayout>

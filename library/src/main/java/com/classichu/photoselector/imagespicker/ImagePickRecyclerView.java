@@ -24,10 +24,10 @@ import java.util.List;
 public class ImagePickRecyclerView extends RecyclerView {
 
     private static final String TAG = "ImagePickRecyclerView";
-    List<ImagePickBean> mImagePickBeanList = new ArrayList<>();
-    ImagePickRecyclerViewAdapter imagePickRecyclerViewAdapter;
+    private List<ImagePickBean> mImagePickBeanList = new ArrayList<>();
+    private ImagePickRecyclerViewAdapter imagePickRecyclerViewAdapter;
 
-    int mIp_maxPickCountFromXml;
+    private int mIp_maxPickCountFromXml;
 
     public static final int mOneColumnImageCount = 4;
 

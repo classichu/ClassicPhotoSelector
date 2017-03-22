@@ -78,6 +78,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
     private RecyclerView mRecyclerViewDir;
     private ImagePickerDirListAdapter mImagePickerDirListAdapter;
 
+    private int mMaxSelectCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
         }
         if (bundle != null) {
            mIsToolbarTitleCenter = bundle.getBoolean("isToolbarTitleCenter");
+            mMaxSelectCount = bundle.getInt("maxSelectCount");
         }
 
         initToolbar();
@@ -113,14 +115,14 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
          *
          */
 
-        mImagePickerListAdapter = new ImagePickerListAdapter(mNowDirImageList);
+        mImagePickerListAdapter = new ImagePickerListAdapter(mNowDirImageList,mMaxSelectCount);
         mImagePickerListAdapter.setOnItemClickListener(new ImagePickerListAdapter.OnItemClickListener() {
             @Override
             public void onItemSelected(int selectedCount) {
                 super.onItemSelected(selectedCount);
 
                 //更新标题栏
-                setToolbarTitle("已选" + selectedCount + "张");
+                setToolbarTitle(selectedCount + "/"+mMaxSelectCount);
             }
 
             @Override

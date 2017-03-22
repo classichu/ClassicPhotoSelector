@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,9 +29,10 @@ public class ImagePickerListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private List<String> mSelectedImageList = new ArrayList<>();
     private List<ImagePickerBean> mImagePickerBeanList = new ArrayList<>();
-
-    public ImagePickerListAdapter(List<ImagePickerBean> dataList) {
+    private int mMaxCount;
+    public ImagePickerListAdapter(List<ImagePickerBean> dataList,int maxCount) {
         mImagePickerBeanList = dataList;
+        mMaxCount=maxCount;
     }
 
 
@@ -84,6 +86,12 @@ public class ImagePickerListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     v.setSelected(false);
                     listViewHolder.itemView.setSelected(false);
                 } else {
+                    //
+                    if (mSelectedImageList.size()>=mMaxCount){
+                        Toast.makeText(v.getContext(), "最多能选择"+mMaxCount+"张", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //
                     mSelectedImageList.add(path);
                     /**
                      * notifyDataSetChanged刷新会让图片闪烁   不采用adapter刷新

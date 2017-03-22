@@ -14,9 +14,10 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".customselector.CustomPhotoSelectorActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            ></activity>
+        <activity
+            android:name=".customselector.CustomPhotoSelectorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".customselector.ClassicPhotoSelectorActivity"></activity>
     </application>
 
 </manifest>
