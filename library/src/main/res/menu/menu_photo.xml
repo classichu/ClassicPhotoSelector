@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:id="@+id/id_menu_dir" app:showAsAction="always" android:title="相册"/>
+<item android:id="@+id/id_menu_finish" app:showAsAction="always" android:title="完成"/>
+</menu>

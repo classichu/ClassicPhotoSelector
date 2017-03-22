@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ImagePickRecyclerView">
+        <attr name="classic_maxPickCount" format="integer"></attr>
+    </declare-styleable>
+</resources>

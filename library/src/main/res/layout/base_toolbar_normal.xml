@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--layout_collapseMode (折叠模式) - 有两个值:layout_collapseParallaxMultiplier(视差因子) - 设置视差滚动因子，值为：0~1。
+pin -  设置为这个模式时，当CollapsingToolbarLayout完全收缩后，Toolbar还可以保留在屏幕上。
+parallax - 设置为这个模式时，在内容滚动时，CollapsingToolbarLayout中的View（比如ImageView)也可以同时滚动，实现视差滚动效果，
+通常和layout_collapseParallaxMultiplier(设置视差因子)搭配使用。-->
+
+<!--滚动事件标记 layout_scrollFlags-->
+<!--app:layout_scrollFlags属性里面必须至少启用scroll这个flag，这样这个view才会滚动出屏幕，
+否则它将一直固定在顶部。可以使用的其他flag有：
+enterAlways: 一旦向上滚动这个view就可见。
+enterAlwaysCollapsed: 顾名思义，这个flag定义的是何时进入（已经消失之后何时再次显示）。假设你定义了一个最小高度（minHeight）
+同时enterAlways也定义了，那么view将在到达这个最小高度的时候开始显示，并且从这个时候开始慢慢展开，当滚动到顶部的时候展开完。
+exitUntilCollapsed: 同样，这个flag时定义何时退出，当你定义了一个minHeight，这个view将在滚动到达这个最小高度的时候消失。-->
+
+<!--Overflow弹出主题：app:popupTheme  默认不显示 android:visibility="gone"
+
+app:title="title"
+-->
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:visibility="gone"
+    app:popupTheme="@style/ThemeOverlay.AppCompat"
+
+    >
+    <!--toolbar  默认不显示 android:visibility="gone" 定义了app:title="XXX" 就行  无需再配置自身文字-->
+    <TextView
+        android:id="@+id/id_toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:visibility="gone"
+        />
+</android.support.v7.widget.Toolbar>

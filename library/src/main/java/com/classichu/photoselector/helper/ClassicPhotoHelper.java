@@ -76,11 +76,17 @@ public class ClassicPhotoHelper {
      * @param activity
      * @param dataIntent
      */
-    public static void getPhotoFromGalleryAndGoToUCrop(Activity activity, Intent dataIntent) {
+    public static String getPhotoFromGalleryBackAndGoToUCrop(Activity activity, Intent dataIntent) {
         String imageFilePath = getFileAbsolutePathFormUriSupport(activity, dataIntent.getData());
        // KLog.d("imageFilePath:" + imageFilePath);
         //float aspectRatioX, float aspectRatioY  宽高比，比如16：9
         goToUCrop(activity, imageFilePath, 300, 300);
+        return imageFilePath;
+    }
+
+    public static String getPhotoFromGalleryBack(Activity activity, Intent dataIntent) {
+        String imageFilePath = getFileAbsolutePathFormUriSupport(activity, dataIntent.getData());
+        return imageFilePath;
     }
 
     /**
@@ -97,6 +103,16 @@ public class ClassicPhotoHelper {
         }*/
         //float aspectRatioX, float aspectRatioY  宽高比，比如16：9
         goToUCrop(activity, mCameraSaveImageTempPath, 300, 300);
+    }
+    public static String getPhotoFromCameraBack() {
+      /*   //修正方向  URI取有问题 暂时不用
+       int degree = ImageTool.getBitmapDegree(imagePath);
+
+        if(0 != degree){
+            bitmapxx=ImageTool.rotateBitmapByDegree(bitmapxx, degree);
+        }*/
+        //float aspectRatioX, float aspectRatioY  宽高比，比如16：9
+        return mCameraSaveImageTempPath;
     }
 
     /**
