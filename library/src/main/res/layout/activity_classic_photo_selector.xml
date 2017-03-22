@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.classichu.photoselector.customselector.ClassicPhotoSelectorActivity">
+    <include layout="@layout/base_toolbar_normal"/>
 
     <com.classichu.photoselector.imagespicker.ImagePickRecyclerView
         android:id="@+id/id_iprv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         />
 
 </LinearLayout>

@@ -93,7 +93,11 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
             mMaxSelectCount = bundle.getInt("maxSelectCount");
         }
 
+
         initToolbar();
+
+        setToolbarTitle("图片选择");
+
         iniRecyclerView();
         iniRecyclerViewDir();
         gainData();

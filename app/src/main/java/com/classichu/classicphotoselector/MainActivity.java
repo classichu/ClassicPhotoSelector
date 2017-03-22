@@ -26,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.dsadas2).setOnClickListener(new OnNotFastClickListener() {
+            @Override
+            protected void onNotFastClick(View v) {
+                ClassicSelectPhotoHelper.initBottomSheetDialog(MainActivity.this,false);
+            }
+        });
+
 
     }
 

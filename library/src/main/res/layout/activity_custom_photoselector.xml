@@ -18,6 +18,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/id_recycler_view"
             android:layout_width="match_parent"
+            android:padding="5dp"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
 

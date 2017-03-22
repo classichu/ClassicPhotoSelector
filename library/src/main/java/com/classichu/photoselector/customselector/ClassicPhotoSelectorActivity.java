@@ -2,8 +2,11 @@ package com.classichu.photoselector.customselector;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.classichu.photoselector.R;
 import com.classichu.photoselector.customselector.bean.ImagePickerDataWrapper;
@@ -21,6 +24,17 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classic_photo_selector);
 
+        Bundle bundle = null;
+        if (this.getIntent() != null) {
+            bundle = this.getIntent().getExtras();
+        }
+        if (bundle != null) {
+            mIsToolbarTitleCenter = bundle.getBoolean("isToolbarTitleCenter");
+        }
+
+        initToolbar();
+
+        setToolbarTitle("图片选择");
 
         iprv = (ImagePickRecyclerView) findViewById(R.id.id_iprv);
         iprv.setOnAddClickListener(new ImagePickRecyclerView.OnAddClickListener() {
@@ -62,5 +76,52 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
 
             }
         }
+    }
+    private TextView mToolbarTitleView;
+    private Toolbar mToolbar;
+    private boolean mIsToolbarTitleCenter=true;
+
+    protected void setToolbarTitle(String string) {
+        if (mIsToolbarTitleCenter) {
+            if (mToolbarTitleView != null) {
+                mToolbarTitleView.setText(string);
+                mToolbar.setTitle("");
+                mToolbarTitleView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (mToolbarTitleView != null) {
+                mToolbarTitleView.setText("");
+                mToolbar.setTitle(string);
+                mToolbarTitleView.setVisibility(View.GONE);
+            }
+        }
+    }
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        if (mToolbar == null) {
+            return;
+        }
+        mToolbarTitleView = (TextView) mToolbar.findViewById(R.id.id_toolbar_title);
+
+        /**
+         * setToolbarTitle
+         */
+        this.setToolbarTitle(mToolbar.getTitle() != null ? mToolbar.getTitle().toString() : "");
+
+        mToolbar.setVisibility(View.VISIBLE);
+        //替换ActionBar
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        //必须设置在setSupportActionBar(mToolbar);后才有效
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //结束当前aty
+                finish();
+            }
+        });
     }
 }
