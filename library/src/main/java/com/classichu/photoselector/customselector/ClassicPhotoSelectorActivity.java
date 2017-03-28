@@ -100,7 +100,7 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
                 for (String s : selectedList) {
                     ImagePickBean imagePickBean = new ImagePickBean();
                     imagePickBean.setImagePathOrUrl(s);
-                    imagePickBean.setImageWebIdStr(s);
+                    //imagePickBean.setImageWebIdStr(s);
                     imagePickBeanList.add(imagePickBean);
                 }
                 // Toast.makeText(this, "已选择："+sb.toString(), Toast.LENGTH_SHORT).show();

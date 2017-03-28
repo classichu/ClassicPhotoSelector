@@ -209,6 +209,7 @@ public class ImagePickRecyclerView extends RecyclerView {
             ImagePickBean imagePickBean = new ImagePickBean();
             imagePickBean.setImageName(this.getFileNameFormPath(paths.get(i), true));
             imagePickBean.setImagePathOrUrl(paths.get(i));
+
             // FIXME: 2017/3/21 imagePickBean.setImageTime(MyUtils.formatPhotoDate(paths.get(i),"yyyy-MM-dd HH:mm:ss"));
             imagePickBean.setImagePickedTimeAndOrderTag("the_" + i + 1 + "_at_" + System.currentTimeMillis());
             imagePickBeanList.add(imagePickBean);
