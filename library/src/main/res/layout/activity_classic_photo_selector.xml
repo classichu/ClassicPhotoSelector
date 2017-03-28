@@ -6,13 +6,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.classichu.photoselector.customselector.ClassicPhotoSelectorActivity">
-    <include layout="@layout/base_toolbar_normal"/>
+
+    <include layout="@layout/base_toolbar_normal" />
+
 
     <com.classichu.photoselector.imagespicker.ImagePickRecyclerView
         android:id="@+id/id_iprv"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        />
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividersColor" />
+
+        <Button
+            android:id="@+id/id_btn_show_save"
+            style="@style/ClassicButtonBorderlessColored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="保存" />
+    </LinearLayout>
 
 </LinearLayout>

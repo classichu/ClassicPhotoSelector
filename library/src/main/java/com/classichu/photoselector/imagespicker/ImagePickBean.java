@@ -1,9 +1,11 @@
 package com.classichu.photoselector.imagespicker;
 
+import java.io.Serializable;
+
 /**
  * Created by louisgeek on 2016/7/13.
  */
-public class ImagePickBean {
+public class ImagePickBean implements Serializable{
     private int imageID;
     private String imageWebIdStr;
     private String imageName;

@@ -6,18 +6,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.classichu.photoselector.R;
+import com.classichu.photoselector.bean.PhotoSelectorDataWrapper;
 import com.classichu.photoselector.customselector.bean.ImagePickerDataWrapper;
 import com.classichu.photoselector.imagespicker.ImagePickBean;
 import com.classichu.photoselector.imagespicker.ImagePickRecyclerView;
+import com.classichu.photoselector.listener.OnNotFastClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClassicPhotoSelectorActivity extends AppCompatActivity {
     private ImagePickRecyclerView iprv;
+    private int mMaxImagePickCount = 3;
+    private String mImagePickKey;
+
+    private static final int REQUEST_CODE_SELECT_PHOTO = 44544;
+    private PhotoSelectorDataWrapper mPhotoSelectorDataWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +37,28 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             bundle = this.getIntent().getExtras();
         }
         if (bundle != null) {
-            mIsToolbarTitleCenter = bundle.getBoolean("isToolbarTitleCenter");
+            mIsToolbarTitleCenter = bundle.getBoolean("isTitleCenter");
+            mMaxImagePickCount = bundle.getInt("maxImagePickCount");
+            mImagePickKey = bundle.getString("imagePickKey");
+            mPhotoSelectorDataWrapper = (PhotoSelectorDataWrapper) bundle.getSerializable("photoSelectorDataWrapper");
         }
 
         initToolbar();
 
         setToolbarTitle("图片选择");
 
+
+        Button id_btn_show_save = (Button) findViewById(R.id.id_btn_show_save);
+        id_btn_show_save.setOnClickListener(new OnNotFastClickListener() {
+            @Override
+            protected void onNotFastClick(View v) {
+
+                saveImageOpear();
+            }
+        });
+
         iprv = (ImagePickRecyclerView) findViewById(R.id.id_iprv);
+        iprv.setMaxImagePickCount(mMaxImagePickCount);
         iprv.setOnAddClickListener(new ImagePickRecyclerView.OnAddClickListener() {
             @Override
             public void onAddClick(View view, int maxPickImageCount, int hasImageCount) {
@@ -45,9 +67,9 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
                 Intent intent = new Intent(ClassicPhotoSelectorActivity.this, CustomPhotoSelectorActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isToolbarTitleCenter", true);
-                bundle.putInt("maxSelectCount", maxPickImageCount-hasImageCount);
+                bundle.putInt("maxSelectCount", maxPickImageCount - hasImageCount);
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 44544);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_PHOTO);
 
             }
 
@@ -56,17 +78,27 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
 
     }
 
+    private void saveImageOpear() {
+        List<ImagePickBean> imagePickBeanList = iprv.getImagePickBeanListData();
+        PhotoSelectorDataWrapper photoSelectorDataWrapper = new PhotoSelectorDataWrapper();
+        photoSelectorDataWrapper.setImagePickBeanList(imagePickBeanList);
+        Intent intent = new Intent();
+        intent.putExtra("photoSelectorDataWrapper", photoSelectorDataWrapper);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //
-        if (requestCode == 44544) {
+        if (requestCode == REQUEST_CODE_SELECT_PHOTO) {
             if (resultCode == RESULT_OK) {
                 ImagePickerDataWrapper imagePickerDataWrapper = (ImagePickerDataWrapper) data.getSerializableExtra("imagePickerDataWrapper");
                 List<String> selectedList = imagePickerDataWrapper.getSelectedImageList();
-                List<ImagePickBean> imagePickBeanList=new ArrayList<>();
+                List<ImagePickBean> imagePickBeanList = new ArrayList<>();
                 for (String s : selectedList) {
-                    ImagePickBean imagePickBean=new ImagePickBean();
+                    ImagePickBean imagePickBean = new ImagePickBean();
                     imagePickBean.setImagePathOrUrl(s);
                     imagePickBean.setImageWebIdStr(s);
                     imagePickBeanList.add(imagePickBean);
@@ -77,9 +109,10 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             }
         }
     }
+
     private TextView mToolbarTitleView;
     private Toolbar mToolbar;
-    private boolean mIsToolbarTitleCenter=true;
+    private boolean mIsToolbarTitleCenter = true;
 
     protected void setToolbarTitle(String string) {
         if (mIsToolbarTitleCenter) {
@@ -96,6 +129,7 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             }
         }
     }
+
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.id_toolbar);
         if (mToolbar == null) {

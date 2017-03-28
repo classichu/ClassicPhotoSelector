@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.classichu.photoselector.customselector.ClassicPhotoSelectorActivity;
+import com.classichu.photoselector.helper.ClassicPhotoUploaderDataHelper;
 import com.classichu.photoselector.helper.ClassicSelectPhotoHelper;
+import com.classichu.photoselector.imagespicker.ImagePickBean;
 import com.classichu.photoselector.listener.OnNotFastClickListener;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.dsadas).setOnClickListener(new OnNotFastClickListener() {
             @Override
             protected void onNotFastClick(View v) {
-                startActivity(new Intent(MainActivity.this, ClassicPhotoSelectorActivity.class));
+                ClassicPhotoUploaderDataHelper.setDataAndToPhotoSelector(MainActivity.this, "", 5);
+               // startActivity(new Intent(MainActivity.this, ClassicPhotoSelectorActivity.class));
             }
         });
 
@@ -62,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ClassicPhotoUploaderDataHelper.callAtOnActivityResult(requestCode, resultCode, data, new ClassicPhotoUploaderDataHelper.PhotoSelectorBackData() {
+            @Override
+            public void backData(List<ImagePickBean> imagePickBeanList) {
+                Log.d("DSAD", "backData: "+imagePickBeanList);
+            }
+        });
 
     }
 
