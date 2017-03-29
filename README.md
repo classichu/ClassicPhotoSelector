@@ -16,3 +16,16 @@ Step 2. Add the dependency  [![](https://jitpack.io/v/classichu/ClassicPhotoSele
 	  dependencies {
 	          compile 'com.github.classichu:ClassicPhotoSelector:x.x.x'
 	  }
+
+
+
+![https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic0.png](https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic0.png)
+
+
+![https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic1.png](https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic1.png)
+
+
+![https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic2.png](https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic2.png)
+
+![https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic3.png](https://github.com/classichu/ClassicPhotoSelector/blob/master/screenshots/pic3.png)
+
