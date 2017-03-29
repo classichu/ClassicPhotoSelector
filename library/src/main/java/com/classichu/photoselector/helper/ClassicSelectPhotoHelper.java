@@ -120,17 +120,28 @@ public class ClassicSelectPhotoHelper {
     }
 
     public static void callAtOnActivityResult(Activity activity, int requestCode, int resultCode,
-                                              Intent data, OnBackImageListener onBackImageListener) {
+                                              Intent data, final OnBackImageListener onBackImageListener) {
         switch (requestCode) {
             case ClassicPhotoHelper.CAMERA_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
                     if (mNeedCrop) {
                         ClassicPhotoHelper.getPhotoFromCameraBackAndGoToUCrop(activity);
                     } else {
-                        if (onBackImageListener != null) {
-                            onBackImageListener.onBackImagePath(ClassicPhotoHelper.getPhotoFromCameraBack());
+
+                            ClassicPhotoHelper.getPhotoFromCameraBackCallAtOnActivityResult(activity,requestCode, resultCode,true, new ClassicPhotoHelper.OnBackImageCallback() {
+                                @Override
+                                public void onBackImage(String path) {
+                                if (path==null&&path.equals("")){
+                                    return;
+                                }
+                                    if (onBackImageListener != null) {
+                                        onBackImageListener.onBackImagePath(path);
+                                    }
+                                }
+                            });
+
                         }
-                    }
+
                     dismissBottomSheetDialog();
                 }
                 break;

@@ -26,11 +26,13 @@ import com.classichu.photoselector.customselector.bean.ImagePickerDataWrapper;
 import com.classichu.photoselector.customselector.bean.ImagePickerDirBean;
 import com.classichu.photoselector.customselector.bean.ImagePickerDirDataWrapper;
 import com.classichu.photoselector.customselector.helper.ImagePickerHelper;
+import com.classichu.photoselector.helper.ClassicPhotoHelper;
 import com.classichu.photoselector.tool.ViewTool;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,13 +74,15 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
     /**
      * raw  data
      */
-    private Map<String, List<String>> mGroupMap = new HashMap<>();
+    private Map<String, List<String>> mGroupMap = new LinkedHashMap<>();
 
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDir;
     private ImagePickerDirListAdapter mImagePickerDirListAdapter;
 
     private int mMaxSelectCount;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +93,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
             bundle = this.getIntent().getExtras();
         }
         if (bundle != null) {
-           mIsToolbarTitleCenter = bundle.getBoolean("isToolbarTitleCenter");
+            mIsToolbarTitleCenter = bundle.getBoolean("isToolbarTitleCenter");
             mMaxSelectCount = bundle.getInt("maxSelectCount");
         }
 
@@ -119,14 +123,21 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
          *
          */
 
-        mImagePickerListAdapter = new ImagePickerListAdapter(mNowDirImageList,mMaxSelectCount);
+        mImagePickerListAdapter = new ImagePickerListAdapter(mNowDirImageList, mMaxSelectCount);
         mImagePickerListAdapter.setOnItemClickListener(new ImagePickerListAdapter.OnItemClickListener() {
+            @Override
+            public void onPhotoCameraBtnClick() {
+                super.onPhotoCameraBtnClick();
+                //
+                ClassicPhotoHelper.getPhotoFromCamera(CustomPhotoSelectorActivity.this);
+            }
+
             @Override
             public void onItemSelected(int selectedCount) {
                 super.onItemSelected(selectedCount);
 
                 //更新标题栏
-                setToolbarTitle(selectedCount + "/"+mMaxSelectCount);
+                setToolbarTitle(selectedCount + "/" + mMaxSelectCount);
             }
 
             @Override
@@ -146,7 +157,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
                     }
                     imageShowBeanList.add(isb);
                 }
-                ImageShowDataHelper.setDataAndToImageShow(view.getContext(), imageShowBeanList, nowSelectedPos,false);
+                ImageShowDataHelper.setDataAndToImageShow(view.getContext(), imageShowBeanList, nowSelectedPos, false);
 
             }
         });
@@ -232,6 +243,11 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Map<String, List<String>> groupMap) {
                 ImagePickerDirDataWrapper imagePickerDataWrapper = new ImagePickerDirDataWrapper();
+                for (String key : groupMap.keySet()) {
+                    //System.out.println("key= "+ key + " and value= " + groupMap.get(key));
+                    //把list倒序排一下  新的显示在上面
+                    Collections.reverse(groupMap.get(key));
+                }
                 imagePickerDataWrapper.setGroupMap(groupMap);
                 gainDataBack(imagePickerDataWrapper);
             }
@@ -296,9 +312,12 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
 
         mNowDirImageList.clear();
         if (mNowDirPathKey.equals(ALL_IMAGES_DIR_PATH_KEY)) {
+            mImagePickerListAdapter.setShowCamera(true);
             //
             mNowDirImageList.addAll(mAllImageList);
         } else {
+            mImagePickerListAdapter.setShowCamera(false);
+            //
             List<String> stringList = mGroupMap.get(mNowDirPathKey);
             if (stringList != null && stringList.size() > 0) {
                 for (int i = 0; i < stringList.size(); i++) {
@@ -316,7 +335,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
 
     private TextView mToolbarTitleView;
     private Toolbar mToolbar;
-    private boolean mIsToolbarTitleCenter=true;
+    private boolean mIsToolbarTitleCenter = true;
 
     protected void setToolbarTitle(String string) {
         if (mIsToolbarTitleCenter) {
@@ -439,4 +458,37 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
         finish();
 
     }
+
+    private String imagePath = "";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ClassicPhotoHelper.CAMERA_REQUEST && resultCode == RESULT_OK) {
+
+            ClassicPhotoHelper.getPhotoFromCameraBackCallAtOnActivityResult(this, requestCode, resultCode, true, new ClassicPhotoHelper.OnBackImageCallback() {
+                @Override
+                public void onBackImage(String path) {
+                    imagePath = path;
+                }
+            });
+            if (imagePath != null && !imagePath.equals("")) {
+             /*   ImagePickerBean imagePickerBean = new ImagePickerBean();
+                imagePickerBean.setPath(imagePath);*/
+                //### mNowDirImageList.add(0,imagePickerBean);
+                //### mImagePickerListAdapter.notifyDataSetChanged();
+                //
+              /*  mAllImageList.add(0, imagePickerBean);
+                mNowDirPathKey = ALL_IMAGES_DIR_PATH_KEY;
+                refreshImageData();*/
+
+               /* for (int i = 0; i < mImageDirBeanList.size(); i++) {
+                    mImageDirBeanList.get(i);
+                }*/
+               gainData();
+
+            }
+        }
+    }
+
 }

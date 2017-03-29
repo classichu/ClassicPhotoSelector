@@ -5,12 +5,14 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.classichu.photoselector.R;
@@ -19,6 +21,11 @@ import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by louisgeek on 2016/12/19.
@@ -104,15 +111,55 @@ public class ClassicPhotoHelper {
         //float aspectRatioX, float aspectRatioY  宽高比，比如16：9
         goToUCrop(activity, mCameraSaveImageTempPath, 300, 300);
     }
-    public static String getPhotoFromCameraBack() {
-      /*   //修正方向  URI取有问题 暂时不用
-       int degree = ImageTool.getBitmapDegree(imagePath);
+    public static void getPhotoFromCameraBackCallAtOnActivityResult(Context context,int requestCode, int resultCode,boolean saveToGallery,OnBackImageCallback onBackImageCallback) {
+        if (requestCode==ClassicPhotoHelper.CAMERA_REQUEST&&resultCode==RESULT_OK){
+                if (onBackImageCallback!=null){
+                    onBackImageCallback.onBackImage(mCameraSaveImageTempPath);
+                }
+                if (!TextUtils.isEmpty(mCameraSaveImageTempPath)&&saveToGallery){
+                    saveImageToGallery(context,mCameraSaveImageTempPath);
+                }
+        }
+    }
+    public  interface  OnBackImageCallback{
+        void onBackImage(String path);
+    }
 
-        if(0 != degree){
-            bitmapxx=ImageTool.rotateBitmapByDegree(bitmapxx, degree);
-        }*/
-        //float aspectRatioX, float aspectRatioY  宽高比，比如16：9
-        return mCameraSaveImageTempPath;
+    /**
+     * "hhhqqq/zfq"
+     * @param saveChildPath
+     * @param bmp
+     */
+    public static void saveImageToSdcard(String saveChildPath, Bitmap bmp) {
+        // 保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), saveChildPath);
+        if (!appDir.exists()) {
+            appDir.mkdirs();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void saveImageToGallery(Context context,String path) {
+        File file=new File(path);
+        // 把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), file.getName(), null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
     }
 
     /**
