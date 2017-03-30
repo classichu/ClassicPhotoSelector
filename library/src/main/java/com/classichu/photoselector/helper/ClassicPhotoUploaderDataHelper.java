@@ -19,19 +19,23 @@ import java.util.List;
 public class ClassicPhotoUploaderDataHelper {
     public static final int REQUEST_CODE_PHOTO_SELECTOR = 2329;
 
-    public static void setDataAndToPhotoSelector(FragmentActivity fragmentActivity, String imagePickKey,
+    public static void setDataAndToPhotoSelector(FragmentActivity fragmentActivity,List<ImagePickBean> imagePickBeanList,
                                                  int maxImagePickCount) {
-        setDataAndToPhotoSelector(fragmentActivity, imagePickKey, maxImagePickCount, true);
+        setDataAndToPhotoSelector(fragmentActivity,imagePickBeanList, maxImagePickCount, true);
     }
 
-    public static void setDataAndToPhotoSelector(FragmentActivity fragmentActivity, String imagePickKey,
+    public static void setDataAndToPhotoSelector(FragmentActivity fragmentActivity,
+                                                 List<ImagePickBean> imagePickBeanList,
                                                  int maxImagePickCount, boolean isTitleCenter) {
         WeakReference<FragmentActivity> fragmentActivityWeakReference = new WeakReference<>(fragmentActivity);
         Intent intent = new Intent(fragmentActivityWeakReference.get(), ClassicPhotoSelectorActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("imagePickKey", imagePickKey);
-        bundle.putInt("maxImagePickCount", maxImagePickCount);
         bundle.putBoolean("isTitleCenter", isTitleCenter);
+        PhotoSelectorDataWrapper wrapper=new PhotoSelectorDataWrapper();
+        wrapper.setMaxPickCount(maxImagePickCount);
+        wrapper.setImagePickBeanList(imagePickBeanList);
+        wrapper.setImagePickKey("");
+        bundle.putSerializable("photoSelectorDataWrapper", wrapper);
         intent.putExtras(bundle);
         fragmentActivityWeakReference.get().startActivityForResult(intent, REQUEST_CODE_PHOTO_SELECTOR);
     }
@@ -40,8 +44,9 @@ public class ClassicPhotoUploaderDataHelper {
                                               PhotoSelectorBackData photoSelectorBackData) {
         PhotoSelectorDataWrapper photoSelectorDataWrapper;
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PHOTO_SELECTOR) {
-            photoSelectorDataWrapper = (PhotoSelectorDataWrapper) data.getSerializableExtra("photoSelectorDataWrapper");
-            if (photoSelectorBackData != null && photoSelectorBackData != null) {
+            photoSelectorDataWrapper = (PhotoSelectorDataWrapper)
+                    data.getSerializableExtra("photoSelectorDataWrapper");
+            if (photoSelectorBackData != null) {
                 photoSelectorBackData.backData(photoSelectorDataWrapper.getImagePickBeanList());
             }
 

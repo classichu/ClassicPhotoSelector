@@ -13,6 +13,7 @@ import com.classichu.photoselector.helper.ClassicSelectPhotoHelper;
 import com.classichu.photoselector.imagespicker.ImagePickBean;
 import com.classichu.photoselector.listener.OnNotFastClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.dsadas).setOnClickListener(new OnNotFastClickListener() {
             @Override
             protected void onNotFastClick(View v) {
-                ClassicPhotoUploaderDataHelper.setDataAndToPhotoSelector(MainActivity.this, "", 5);
+
+                ImagePickBean imagePickBean=new ImagePickBean();
+                imagePickBean.setImagePathOrUrl("https://p0.ssl.qhimg.com/t01fbefb649670ca78d.jpg");
+                List<ImagePickBean>  list=new ArrayList<>();
+                list.add(imagePickBean);
+                ClassicPhotoUploaderDataHelper.setDataAndToPhotoSelector(MainActivity.this, list, 5);
                // startActivity(new Intent(MainActivity.this, ClassicPhotoSelectorActivity.class));
             }
         });

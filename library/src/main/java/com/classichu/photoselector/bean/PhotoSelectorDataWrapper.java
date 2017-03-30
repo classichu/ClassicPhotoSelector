@@ -10,58 +10,35 @@ import java.util.List;
  */
 
 public class PhotoSelectorDataWrapper implements Serializable{
-    private String resultid;//选株点击详情id
-    private String key;
-    private int maxCount;
-    //调查项id
-    private List<ImagePickBean> imagePickBeanList;
+    private String imagePickKey;//
 
-    public void setResultid(String resultid) {
-        this.resultid = resultid;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public void setMaxCount(int maxCount) {
-        this.maxCount = maxCount;
+    public List<ImagePickBean> getImagePickBeanList() {
+        return imagePickBeanList;
     }
 
     public void setImagePickBeanList(List<ImagePickBean> imagePickBeanList) {
         this.imagePickBeanList = imagePickBeanList;
     }
 
-    public void setItemid(String itemid) {
-        this.itemid = itemid;
+    private List<ImagePickBean> imagePickBeanList;
+    public String getImagePickKey() {
+        return imagePickKey;
     }
 
-    public List<ImagePickBean> getImagePickBeanList() {
-        return imagePickBeanList;
+    public void setImagePickKey(String imagePickKey) {
+        this.imagePickKey = imagePickKey;
     }
 
-
-    public PhotoSelectorDataWrapper() {
+    public int getMaxPickCount() {
+        return maxPickCount;
     }
 
-    public String getResultid() {
-        return resultid;
+    public void setMaxPickCount(int maxPickCount) {
+        this.maxPickCount = maxPickCount;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public int getMaxCount() {
-        return maxCount;
-    }
-
-    public String getItemid() {
-        return itemid;
-    }
-
-    private String itemid;//详情 code
-
+    private int maxPickCount;
+    //
 
 
 }

@@ -22,7 +22,7 @@ import java.util.List;
 public class ClassicPhotoSelectorActivity extends AppCompatActivity {
     private ImagePickRecyclerView iprv;
     private int mMaxImagePickCount = 3;
-    private String mImagePickKey;
+    private String mImagePickKey="";
 
     private static final int REQUEST_CODE_SELECT_PHOTO = 44544;
     private PhotoSelectorDataWrapper mPhotoSelectorDataWrapper;
@@ -38,9 +38,11 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
         }
         if (bundle != null) {
             mIsToolbarTitleCenter = bundle.getBoolean("isTitleCenter");
-            mMaxImagePickCount = bundle.getInt("maxImagePickCount");
-            mImagePickKey = bundle.getString("imagePickKey");
-            mPhotoSelectorDataWrapper = (PhotoSelectorDataWrapper) bundle.getSerializable("photoSelectorDataWrapper");
+            mPhotoSelectorDataWrapper = (PhotoSelectorDataWrapper)
+                    bundle.getSerializable("photoSelectorDataWrapper");
+            if (mPhotoSelectorDataWrapper!=null){
+            mMaxImagePickCount =mPhotoSelectorDataWrapper.getMaxPickCount();
+            mImagePickKey =mPhotoSelectorDataWrapper.getImagePickKey();}
         }
 
         initToolbar();
@@ -59,6 +61,11 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
 
         iprv = (ImagePickRecyclerView) findViewById(R.id.id_iprv);
         iprv.setMaxImagePickCount(mMaxImagePickCount);
+        //
+        if (mPhotoSelectorDataWrapper!=null&&mPhotoSelectorDataWrapper.getImagePickBeanList() != null
+                && mPhotoSelectorDataWrapper.getImagePickBeanList().size() > 0) {
+           iprv.addDataList(mPhotoSelectorDataWrapper.getImagePickBeanList());
+        }
         iprv.setOnAddClickListener(new ImagePickRecyclerView.OnAddClickListener() {
             @Override
             public void onAddClick(View view, int maxPickImageCount, int hasImageCount) {
