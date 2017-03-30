@@ -188,6 +188,14 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
                     mAllImageList.add(imagePickerBean);
                 }
             }
+
+            //把list倒序排一下  新的显示在上面  虚拟的文件夹
+            Collections.reverse(mAllImageList);
+
+            //
+
+            //把list倒序排一下  新的显示在上面  每个实际的文件夹
+            Collections.reverse(nowDirImageList);
             /**
              * 单独存放图片
              */
@@ -243,11 +251,6 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Map<String, List<String>> groupMap) {
                 ImagePickerDirDataWrapper imagePickerDataWrapper = new ImagePickerDirDataWrapper();
-                for (String key : groupMap.keySet()) {
-                    //System.out.println("key= "+ key + " and value= " + groupMap.get(key));
-                    //把list倒序排一下  新的显示在上面
-                    Collections.reverse(groupMap.get(key));
-                }
                 imagePickerDataWrapper.setGroupMap(groupMap);
                 gainDataBack(imagePickerDataWrapper);
             }
@@ -328,6 +331,8 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
                 }
             }
         }
+
+
         //KLog.d("ASD 333");
         mImagePickerListAdapter.notifyDataSetChanged();
 
@@ -485,7 +490,7 @@ public class CustomPhotoSelectorActivity extends AppCompatActivity {
                /* for (int i = 0; i < mImageDirBeanList.size(); i++) {
                     mImageDirBeanList.get(i);
                 }*/
-               gainData();
+                gainData();
 
             }
         }

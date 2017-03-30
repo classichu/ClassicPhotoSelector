@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.classichu.photoselector.R;
 import com.classichu.photoselector.customselector.bean.ImagePickerBean;
 import com.classichu.photoselector.listener.OnNotFastClickListener;
@@ -73,8 +72,9 @@ public class ImagePickerListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 .load(mImagePickerBeanList.get(readPos).getPath())
                 //.placeholder(R.drawable.img_image_no)
                 //  .error(R.drawable.img_image_no)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .crossFade().into(listViewHolder.id_iv_item_image);
+               //### .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                //### .crossFade()
+                .into(listViewHolder.id_iv_item_image);
 
         if (mSelectedImageList.contains(mImagePickerBeanList.get(readPos).getPath())) {
             listViewHolder.id_iv_selectbtn.setSelected(true);
