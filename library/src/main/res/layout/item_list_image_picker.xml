@@ -13,7 +13,7 @@
          <ImageView
             android:id="@+id/id_iv_item_image"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             />
