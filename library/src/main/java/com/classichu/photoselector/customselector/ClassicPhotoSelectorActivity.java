@@ -1,5 +1,6 @@
 package com.classichu.photoselector.customselector;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.classichu.photoselector.R;
 import com.classichu.photoselector.bean.PhotoSelectorDataWrapper;
 import com.classichu.photoselector.customselector.bean.ImagePickerDataWrapper;
+import com.classichu.photoselector.fragment.ClassicDialogFragment;
 import com.classichu.photoselector.imagespicker.ImagePickBean;
 import com.classichu.photoselector.imagespicker.ImagePickRecyclerView;
 import com.classichu.photoselector.listener.OnNotFastClickListener;
@@ -161,7 +163,28 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //结束当前aty
-                finish();
+                ClassicDialogFragment.Builder builder
+                        = new ClassicDialogFragment.Builder(ClassicPhotoSelectorActivity.this);
+                        builder.setTitle("温馨提示")
+                        .setMessage("图片未保存，是否需要保存？")
+                        .setOkText("是")
+                        .setCancelText("否")
+                        .setOnBtnClickListener(new ClassicDialogFragment.OnBtnClickListener() {
+                            @Override
+                            public void onBtnClickOk(DialogInterface dialogInterface) {
+                                super.onBtnClickOk(dialogInterface);
+                                //
+                                saveImageOpear();
+                            }
+
+                            @Override
+                            public void onBtnClickCancel(DialogInterface dialogInterface) {
+                                super.onBtnClickCancel(dialogInterface);
+                                //
+                                finish();
+                            }
+                        }).build().show(getSupportFragmentManager(),"DSADSAS");
+
             }
         });
     }
