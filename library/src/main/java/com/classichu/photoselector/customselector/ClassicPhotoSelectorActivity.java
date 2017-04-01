@@ -24,7 +24,7 @@ import java.util.List;
 public class ClassicPhotoSelectorActivity extends AppCompatActivity {
     private ImagePickRecyclerView iprv;
     private int mMaxImagePickCount = 3;
-    private String mImagePickKey="";
+    private String mImagePickKey = "";
 
     private static final int REQUEST_CODE_SELECT_PHOTO = 44544;
     private PhotoSelectorDataWrapper mPhotoSelectorDataWrapper;
@@ -42,9 +42,10 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             mIsToolbarTitleCenter = bundle.getBoolean("isTitleCenter");
             mPhotoSelectorDataWrapper = (PhotoSelectorDataWrapper)
                     bundle.getSerializable("photoSelectorDataWrapper");
-            if (mPhotoSelectorDataWrapper!=null){
-            mMaxImagePickCount =mPhotoSelectorDataWrapper.getMaxPickCount();
-            mImagePickKey =mPhotoSelectorDataWrapper.getImagePickKey();}
+            if (mPhotoSelectorDataWrapper != null) {
+                mMaxImagePickCount = mPhotoSelectorDataWrapper.getMaxPickCount();
+                mImagePickKey = mPhotoSelectorDataWrapper.getImagePickKey();
+            }
         }
 
         initToolbar();
@@ -64,9 +65,9 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
         iprv = (ImagePickRecyclerView) findViewById(R.id.id_iprv);
         iprv.setMaxImagePickCount(mMaxImagePickCount);
         //
-        if (mPhotoSelectorDataWrapper!=null&&mPhotoSelectorDataWrapper.getImagePickBeanList() != null
+        if (mPhotoSelectorDataWrapper != null && mPhotoSelectorDataWrapper.getImagePickBeanList() != null
                 && mPhotoSelectorDataWrapper.getImagePickBeanList().size() > 0) {
-           iprv.addDataList(mPhotoSelectorDataWrapper.getImagePickBeanList());
+            iprv.addDataList(mPhotoSelectorDataWrapper.getImagePickBeanList());
         }
         iprv.setOnAddClickListener(new ImagePickRecyclerView.OnAddClickListener() {
             @Override
@@ -163,9 +164,14 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //结束当前aty
+
+                if (iprv.getNeedUploadImageCount() <= 0) {
+                    finish();
+                    return;
+                }
                 ClassicDialogFragment.Builder builder
                         = new ClassicDialogFragment.Builder(ClassicPhotoSelectorActivity.this);
-                        builder.setTitle("温馨提示")
+                builder.setTitle("温馨提示")
                         .setMessage("图片未保存，是否需要保存？")
                         .setOkText("是")
                         .setCancelText("否")
@@ -183,7 +189,7 @@ public class ClassicPhotoSelectorActivity extends AppCompatActivity {
                                 //
                                 finish();
                             }
-                        }).build().show(getSupportFragmentManager(),"DSADSAS");
+                        }).build().show(getSupportFragmentManager(), "DSADSAS");
 
             }
         });
